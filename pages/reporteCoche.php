@@ -39,7 +39,34 @@ $conexion = $bbdd->connect();
         }
     }
   ?>
- 
+    <form action="addConductor.php" method="post">
+        <label for="nombre">Nombre:</label><br>
+        <input type="text" id="nombre" name="nombre"><br>
+        <label for="dni">DNI:</label><br>
+        <input type="text" id="dni" name="dni"><br>
+        <label for="alta_baja">Alta/Baja:</label><br>
+        <input type="checkbox" id="alta_baja" name="alta_baja" value="1"><br>
+        <input type="submit" value="Añadir Conductor">
+    </form>
+    
+    <?php
+include_once('../includes/conexion.php');
+
+if($_SERVER["REQUEST_METHOD"] == "POST"){
+    $conexion = new conexion();
+    $con = $conexion->connect();
+
+    $nombre = $_POST['nombre'];
+    $dni = $_POST['dni'];
+    $alta_baja = $_POST['alta_baja'];
+
+    $sql = "INSERT INTO conductores (nombre, dni, alta_baja) VALUES (?, ?, ?)";
+    $stmt= $con->prepare($sql);
+    $stmt->execute([$nombre, $dni, $alta_baja]);
+}
+?>
+    
+
 <script src="app.js"></script>
 </body>
 
