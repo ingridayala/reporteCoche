@@ -1,74 +1,46 @@
+<?php
+require_once '../includes/conexion.php';
+
+$bbdd = new conexion();
+$conexion = $bbdd->connect();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Reporte Coche</title>
 </head>
 
 <body>
   <h1>Inspección de Taxi</h1>
 
-  <img src="carro.png" usemap="#carromap" />
+  <form method="post" action="">
+    <label for="licencia">Licencia:</label>
+    <input type="text" id="licencia" name="licencia">
+    <input type="submit" name="buscar" value="Buscar">
+  </form>
+  <?php
+    if (isset($_POST['buscar'])) {
+        $licencia = $_POST['licencia'];
 
-  <map name="carromap">
-    <area shape="rect" coords="34,44,270,350" alt="Capó" href="#" onclick="seleccionarParte('Capó')">
-    <!-- Agrega más áreas aquí -->
-  </map>
+        $consulta = $conexion->prepare("SELECT * FROM taxis WHERE licencia = :licencia");
+        $consulta->bindParam(':licencia', $licencia);
+        $consulta->execute();
 
-  <h2>Daños</h2>
+        $resultado = $consulta->fetch(PDO::FETCH_ASSOC);
 
-  <div id="danos"></div>
-
-  <input type="file" accept="image/*" capture="environment" id="fileInput" style="display: none;">
-
-  <button onclick="enviarDanos()">Enviar daños</button>
-
-  <script src="app.js">
-    let danos = [];
-
-function seleccionarParte(parte) {
-  let dano = {
-    parte: parte,
-    imagen: null
-  };
-
-  danos.push(dano);
-
-  document.getElementById('fileInput').click();
-}
-
-document.getElementById('fileInput').addEventListener('change', function(e) {
-  var file = e.target.files[0];
-  var reader = new FileReader();
-
-  reader.onloadend = function() {
-    danos[danos.length - 1].imagen = reader.result;
-    actualizarListaDeDanos();
-  }
-
-  if (file) {
-    reader.readAsDataURL(file);
-  }
-});
-
-function actualizarListaDeDanos() {
-  let lista = document.getElementById('danos');
-  lista.innerHTML = '';
-
-  for (let dano of danos) {
-    let item = document.createElement('p');
-    item.textContent = dano.parte;
-    lista.appendChild(item);
-  }
-}
-
-function enviarDanos() {
-  // Aquí puedes enviar los datos de `danos` a tu servidor PHP
-}
-
-  </script>
+        if ($resultado) {
+            echo "Taxi encontrado: " . print_r($resultado, true);
+        } else {
+            echo "No se encontró un taxi con la licencia " . $licencia;
+        }
+    }
+  ?>
+ 
+<script src="app.js"></script>
 </body>
 
 </html>
