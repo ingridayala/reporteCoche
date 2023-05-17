@@ -7,7 +7,7 @@ class conexion{
     private $pass;
 
     public function __construct(){
-        $this -> host = "localhost";
+        $this -> host = "192.168.1.178";
         $this -> bbdd = "wetaxitaller";
         $this -> user = "root";
         $this -> pass = "";

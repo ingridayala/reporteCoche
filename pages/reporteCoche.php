@@ -20,8 +20,8 @@ $conexion = $bbdd->connect();
     }
     #grid {
       display: grid;
-      grid-template-columns: repeat(9, 1fr);
-      grid-template-rows: repeat(8, 1fr);
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(2, 1fr);
       position: absolute;
       top: 0;
       left: 0;
@@ -73,22 +73,13 @@ $conexion = $bbdd->connect();
         <input type="checkbox" id="alta_baja" name="alta_baja" value="1"><br>
         <input type="submit" value="Añadir Conductor">
     </form>
-    
-    
 
-<div class="section-image">
-    <img src="../assets/img/diagramaCoche.jpg" alt="">
-</div>
-<div id="car-diagram">
-    <img src="../assets/img/diagramaCoche.jpg" alt="" style="width:100%">
-    <div class="hotspot front-bumper" onclick="reportDamage('Front Bumper')"></div>
-</div>   
-    <div id="car-diagram">
-    <img src="../assets/img/diagramaCoche.jpg" alt="" style="width:100%">
+  <div id="car-diagram">
+    <img src="../assets/img/frontal.jpg" alt="" style="width:100%">
     <div id="grid">
-      <!-- Generamos 72 celdas (9x8) -->
-      <?php for ($i = 0; $i < 72; $i++): ?>
-        <div class="cell" onclick="reportDamage(<?php echo $i % 9; ?>, <?php echo floor($i / 9); ?>)"></div>
+      <!-- Generamos 6 celdas (3x2) -->
+      <?php for ($i = 0; $i < 6; $i++): ?>
+        <div class="cell" onclick="reportDamage(<?php echo $i % 3; ?>, <?php echo floor($i / 3); ?>)"></div>
       <?php endfor; ?>
     </div>
   </div>
@@ -102,5 +93,4 @@ $conexion = $bbdd->connect();
     }
   </script>
 </body>
-
 </html>
