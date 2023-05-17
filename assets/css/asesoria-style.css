@@ -1,0 +1,122 @@
+:root{
+    --color1: #ff7928;
+    --color2: #d21b24;
+    --color3: #010101;
+    --color4: #f2f2f2;
+    --color5: #646060;
+  }
+  *{
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+  }
+  
+  /*encabezado de macanica
+  filter: drop-shadow(10px 10px 10px rgba(0,0,0,0.9)); ;
+  */
+  
+  /*servicios asesoria*/
+  /* Float four columns side by side */
+  .column {
+    float: left;
+    width: 33.33%;
+    padding: 0 10px;
+    
+  }
+  
+  /* Remove extra left and right margins, due to padding in columns */
+  .row {
+    margin: auto;
+    width: 100%;
+    max-width: 1000px;
+    
+    
+    }
+  
+  /* Clear floats after the columns */
+  .row:after {
+    content: "";
+    display: table;
+    clear: both;
+    
+  }
+  
+  /* Style the counter cards */
+  .card {
+    background: transparent;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); 
+    padding: 16px;
+    text-align: center;
+    background-color:transparent;
+  }
+  .card:hover{
+    transform: scale(1.10);
+  }
+  /*estilo icono */
+  .icono-asesoria-container{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+  }
+  
+  
+  .icono-asesoria {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); 
+    background-color: var(--color1); /* cambia el color de fondo según tus preferencias */
+    border-radius: 50%; /* hace el fondo redondo */
+    height: 100px; /* ajusta la altura y el ancho según tus preferencias */
+    width: 100px;
+  }
+  .icono-asesoria > i{
+    font-size: 3rem; /* hace el ícono más grande */
+    color: #fff; /* cambia el color del ícono según tus preferencias */
+  }
+
+  /*texto dentro del card*/
+  .card h3 {
+    font-size: 24px;
+    font-weight: bold;
+    color:var(--color5);
+    margin-bottom: 20px;
+  }
+  
+  .card ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .card li {
+    font-size: 15px;
+    margin-bottom: 10px;
+    color: var(--color5);
+  }
+  
+  .card li:before {
+    content: "\2022";
+    color: var(--color5);
+    font-weight: bold;
+    display: inline-block;
+    width: 1em;
+    margin-left: -1em;
+  }
+  /* Responsive columns - one column layout (vertical) on small screens */
+  @media screen and (max-width: 600px) {
+    .column {
+      width: 100%;
+      display: block;
+      margin-bottom: 20px;
+    }
+  }
+  
+    
+    
+    
+  
+    
+  

@@ -1,0 +1,211 @@
+:root{
+    --color1: #ff7928;
+    --color2: #d21b24;
+    --color3: #010101;
+    --color4: #f2f2f2;
+}
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+/*
+.module-container{
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    text-align: center;
+}
+
+.reservas-container{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    padding: 10px;
+}
+
+.lista-reservas-container{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+}
+
+.lista-reservas{
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.lista-reservas .opcion-reserva{
+    width: 250px;
+    
+    background-color: transparent;
+    border: 2px solid var(--color1);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    padding: 20px;
+    text-decoration: none;
+    font-size: 1.2em;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: var(--color3);
+    margin: 10px 0;
+    transition: all 0.20s ease;
+}
+.lista-reservas .opcion-reserva:hover{
+    background-color: var(--color1);
+    color: var(--color4);
+    text-decoration: none;
+}
+
+.descripcion-reservas-container{
+    display: flex;
+    flex-direction: column;
+}
+
+.seleccion-tipo-reserva{
+    width: 100%;
+}
+
+.seleccion-tipo-reserva > select{
+    width: 100%;
+    border: 1px solid var(--color1);
+    background-color: transparent;
+    padding: 10px 5px;
+}
+
+.descripcion-reserva{
+    width: 100%;
+    display: flex;
+}*/
+/*estilos boton reserva */
+#myBtnContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+.tex-reserva > .tex-reserva-buttons{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+  }
+  .tex-reserva > .tex-reserva-buttons > .information-button{
+    width: 100%;
+    padding: 0.8em;
+    background: var(--color4);
+    color: var(--color1);
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    font-size: 1.5em;
+    font-weight: 600;
+    transition: 0.5s;
+  }
+  .tex-reserva > .tex-reserva-buttons > .information-button:hover{
+    background: var(--color3);
+  }
+
+   
+  /* Center website */
+  .main {
+    max-width: 1000px;
+    margin: auto;
+  }
+  
+  h1 {
+    font-size: 50px;
+    word-break: break-all;
+  }
+  
+  .row {
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    
+    
+  }
+  
+  /* Add padding BETWEEN each column (if you want) */
+  .row,
+  .row > .column {
+    padding: 8px;
+  }
+  
+  /* Create three equal columns that floats next to each other */
+  .column {
+    margin: 10px 16px ;
+    float: none;
+    width: 33.33%;
+    min-width: 300px;
+    display: none; /* Hide columns by default */
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  }
+  .column:hover{
+    transform: scale(1.10);
+  }
+  .content >p,h4 {
+    color: var(--color5);
+  }
+  .img-reserva{
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+   }
+  
+  
+  /* Clear floats after rows */
+  .row:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+  
+  /* Content */
+  .content {
+    background-color: white;
+    padding: 10px;
+ 
+  }
+  
+  /* The "show" class is added to the filtered elements */
+  .show {
+    display: block;
+  }
+  
+  /* Style the buttons */
+  .btn {
+    border: none;
+    outline: none;
+    padding: 12px 16px;
+    background-color: white;
+    cursor: pointer;
+  }
+  
+  /* Add a grey background color on mouse-over */
+  .btn:hover {
+    background-color: #ddd;
+  }
+  
+  /* Add a dark background color to the active button */
+
+  .btn.active {
+    background-color: #ec8b30;
+    color: white;
+   
+
+  }
+ 
+  

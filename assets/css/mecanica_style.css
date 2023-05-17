@@ -1,0 +1,145 @@
+:root{
+  --color1: #ff7928;
+  --color2: #d21b24;
+  --color3: #010101;
+  --color4: #f2f2f2;
+}
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Estilos para mecanica.php */
+
+/*encabezado de macanica
+filter: drop-shadow(10px 10px 10px rgba(0,0,0,0.9)); ;
+*/
+
+
+/*animacion menu*/
+.acordeon {
+  width: 100%;
+  max-width: 800px;
+  margin: 100px auto;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+.img-menu-acordeon{
+  height: 250px;
+  margin-right: 15px;
+  display: flex;
+  justify-content: center;
+}
+.img-menu-acordeon > img{
+  width: 100%;
+  max-width: 270px;
+  min-width: 250px;
+  object-fit: cover;
+  height: 250px;
+}
+
+.item {
+  box-shadow: 0 0 32px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilo inicial para los elementos header-item */
+.header-item {
+  display: flex;
+  justify-content: space-between;
+  padding:  15px 20px;
+  border-right: 5px solid transparent;
+  transition: border-color 0.25s ease-in-out;
+  cursor: pointer;
+}
+
+/* Estilo cuando se pasa el cursor sobre los elementos header-item */
+.header-item:hover {
+  border-right: 5px solid var(--color1);
+}
+.icon-title{
+  display: flex;
+}
+.item-contenido{
+  display: flex;
+}
+@media screen and (max-width: 550px) {
+  .item-contenido{
+    flex-direction: column;
+  }
+}
+.text {
+  font-size: 24px;
+  font-weight: 500;
+  user-select: none;
+}
+.icon {
+  width: 24px;
+  height: 24px;
+  stroke: var(--color1);
+  cursor: pointer;
+  margin-right: 15px;
+}
+.texto-menu-acordeon{
+  display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    justify-content: space-between;
+    align-items: flex-end;
+    justify-content: center;
+}
+.texto-menu-acordeon > p {
+  line-height: 1.6;
+  text-align: justify;
+  padding: 15px;
+}
+.item-contenido .botones-menu-acordeon {
+  display: flex;
+  justify-content: center;
+  grid-column: span 2;
+  /*EN EL CASO DE QUE REDIRIJA A OTRA PAGINA esta seprado por defecto en dos columnas*/
+}
+.botones-menu-acordeon{
+  display: flex;
+  justify-content: center;
+}
+.botones-menu-acordeon > button{
+  background-color: transparent;
+  padding: 12px 24px;
+  border-radius: 50px;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  color: var(--color1);
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+  border: 1px solid var(--color1);
+}
+.botones-menu-acordeon > button:hover{
+  cursor: pointer;
+  background-color: var(--color1);
+  color: var(--color3);
+}
+
+/* OPEN STATE */
+.open {
+  border-top: 2px solid var(--color1);
+}
+
+/* al hijo directo de la clase open .header-item cuando la clase open esta asignada el borde derecho de header-item se trasparenta para evitar el efecto hover establecido posteriormete */
+.open > .header-item {
+  border-right: 5px solid transparent !important;
+  transition: border-color 0 ease-in-out;
+}
+.hidden-body{
+  display: hidden;
+}
+.shown-body{
+  display: block;
+}
+.open .text {
+  color:  var(--color1);
+}

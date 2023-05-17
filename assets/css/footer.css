@@ -1,0 +1,189 @@
+:root {
+  --color1: rgb(255, 121, 40);
+  --color2: #d21b24;
+  --color3: #010101;
+  --color4: #f2f2f2;
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  text-decoration: none;
+  list-style: none;
+}
+footer {
+  color: var(--color4);
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 1) 0%,
+    /* rgba(255, 255, 255, 1) 25%, */ rgba(255, 121, 40, 1) 100%
+  );
+  padding: 20px;
+  display: flex;
+  color: #363643 !important;
+}
+.footer-container {
+  position: relative;
+  width: 100%;
+}
+
+/*----- LOGO -----*/
+.footer-logo {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+}
+.footer-logo > img {
+  width: auto;
+  height: 100px;
+  margin: auto;
+}
+
+/*----- LINKS EMPRESA -----*/
+.footer-links {
+  display: flex;
+  justify-content: space-around;
+  text-align: center;
+}
+.links {
+  display: flex;
+}
+.links > ul {
+  margin: 5px;
+  padding: 10px;
+}
+.links > ul > li {
+  margin-top: 15px;
+}
+.links > ul > li > a {
+  color: var(--color3);
+}
+.links > ul > li:hover > a {
+  color: var(--color1);
+}
+@media screen and (max-width: 768px) {
+  .footer-links {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    justify-items: center;
+  }
+}
+@media screen and (max-width: 450px) {
+  .footer-links {
+    grid-template-columns: 1fr;
+  }
+}
+/*----- SOCIAL -----*/
+.social {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+}
+.networks {
+  display: flex;
+}
+.networks > ul {
+  display: flex;
+  margin: 10px;
+}
+.networks > ul > li {
+  margin: 0 10px;
+  padding: 10px;
+  border-bottom: 1px solid transparent;
+  cursor: pointer;
+  transition: border-bottom 0.3s ease-in-out;
+}
+.networks > ul > li a {
+  color: var(--color4);
+  font-size: 1.8em;
+}
+.networks > ul > li:hover {
+  border-bottom: 1px solid var(--color1);
+}
+.networks > ul > li:hover > a {
+  color: var(--color1);
+}
+/*----- APP WETAXI -----*/
+.wetaxi-app {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+.wetaxi-link-btn {
+  width: 166px;
+  height: 50px;
+  background: #010101;
+  border-radius: 10px;
+  text-align: center;
+  border-width: 2px;
+  border-style: solid;
+  border-color: #f2f2f2;
+  margin: 10px 15px;
+}
+.wetaxi-link-btn > i {
+  margin-top: 5px;
+  margin-left: 8px;
+  font-size: 2em;
+  float: left;
+  color: #ffffff;
+}
+.wetaxi-link-text > span {
+  font-size: 12px;
+  color: #ffffff;
+}
+.wetaxi-link-text > h5 {
+  font-size: 18px;
+  color: #ffffff;
+  margin-bottom: 2px;
+}
+@media screen and (max-width: 850px) {
+  .social {
+    flex-direction: column;
+  }
+  .wetaxi-app {
+    justify-content: space-around;
+  }
+  .networks ul {
+    display: flex;
+  }
+}
+@media screen and (max-width: 450px) {
+  .wetaxi-app {
+    display: grid;
+    grid-template-columns: repeat(2 1fr);
+  }
+  .networks ul {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+
+/*----- COPYRIGHT -----*/
+.copyright {
+  display: flex;
+  font-size: 0.8rem;
+  justify-content: space-between;
+}
+.copyright > ul {
+  display: flex;
+}
+.copyright > ul > li {
+  margin-right: 20px;
+}
+.copyright > ul > li > a {
+  color: var(--color4);
+}
+.copyright > ul > li:hover > a {
+  color: var(--color1);
+}
+@media screen and (max-width: 600px) {
+  .copyright {
+    flex-direction: column;
+    text-align: center;
+  }
+  .req {
+    margin-top: 10px;
+    justify-content: space-around;
+  }
+}
