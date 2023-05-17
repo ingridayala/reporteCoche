@@ -50,16 +50,23 @@ $conexion = $bbdd->connect();
     </form>
     
     <?php
-include_once('../includes/conexion.php');
+      include_once('../includes/conexion.php');
 
-if($_SERVER["REQUEST_METHOD"] == "POST"){
-    $conexion = new conexion();
-    $con = $conexion->connect();
+      if($_SERVER["REQUEST_METHOD"] == "POST"){
+          $conexion = new conexion();
+          $con = $conexion->connect();
 
-    $nombre = $_POST['nombre'];
-    $dni = $_POST['dni'];
-    $alta_baja = $_POST['alta_baja'];
+          $nombre = $_POST['nombre'];
+          $dni = $_POST['dni'];
+          $alta_baja = $_POST['alta_baja'];
 
+<<<<<<< HEAD
+          $sql = "INSERT INTO conductores (nombre, dni, alta_baja) VALUES (?, ?, ?)";
+          $stmt= $con->prepare($sql);
+          $stmt->execute([$nombre, $dni, $alta_baja]);
+      }
+    ?>
+=======
     $sql = "INSERT INTO conductores (nombre, dni, alta_baja) VALUES (?, ?, ?)";
     $stmt= $con->prepare($sql);
     $stmt->execute([$nombre, $dni, $alta_baja]);
@@ -69,6 +76,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 <div class="section-image">
     <img src="../assets/img/diagramaCoche.jpg" alt="">
 </div>
+>>>>>>> 0ae68996cd6f85ede5b0e323d3009a87ded22a01
     
 
 <script src="app.js"></script>
