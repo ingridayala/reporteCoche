@@ -60,11 +60,23 @@ $conexion = $bbdd->connect();
           $dni = $_POST['dni'];
           $alta_baja = $_POST['alta_baja'];
 
+<<<<<<< HEAD
           $sql = "INSERT INTO conductores (nombre, dni, alta_baja) VALUES (?, ?, ?)";
           $stmt= $con->prepare($sql);
           $stmt->execute([$nombre, $dni, $alta_baja]);
       }
     ?>
+=======
+    $sql = "INSERT INTO conductores (nombre, dni, alta_baja) VALUES (?, ?, ?)";
+    $stmt= $con->prepare($sql);
+    $stmt->execute([$nombre, $dni, $alta_baja]);
+}
+?>
+
+<div class="section-image">
+    <img src="../assets/img/diagramaCoche.jpg" alt="">
+</div>
+>>>>>>> 0ae68996cd6f85ede5b0e323d3009a87ded22a01
     
 
 <script src="app.js"></script>
