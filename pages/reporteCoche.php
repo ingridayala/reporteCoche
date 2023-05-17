@@ -12,6 +12,31 @@ $conexion = $bbdd->connect();
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reporte Coche</title>
+    <style>
+    #car-diagram {
+      position: relative;
+      width: 100%;
+      max-width: 600px;
+    }
+    #grid {
+      display: grid;
+      grid-template-columns: repeat(9, 1fr);
+      grid-template-rows: repeat(8, 1fr);
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+    .cell {
+      border: 1px solid rgba(255, 255, 255, 0.5);  /* Para visualizar las celdas */
+      background: transparent;
+    }
+    .cell:hover {
+      background: rgba(0, 255, 0, 0.5);  /* Cambia el color al pasar el ratón */
+    }
+  </style>
+
 </head>
 
 <body>
@@ -49,37 +74,33 @@ $conexion = $bbdd->connect();
         <input type="submit" value="Añadir Conductor">
     </form>
     
-    <?php
-      include_once('../includes/conexion.php');
-
-      if($_SERVER["REQUEST_METHOD"] == "POST"){
-          $conexion = new conexion();
-          $con = $conexion->connect();
-
-          $nombre = $_POST['nombre'];
-          $dni = $_POST['dni'];
-          $alta_baja = $_POST['alta_baja'];
-
-<<<<<<< HEAD
-          $sql = "INSERT INTO conductores (nombre, dni, alta_baja) VALUES (?, ?, ?)";
-          $stmt= $con->prepare($sql);
-          $stmt->execute([$nombre, $dni, $alta_baja]);
-      }
-    ?>
-=======
-    $sql = "INSERT INTO conductores (nombre, dni, alta_baja) VALUES (?, ?, ?)";
-    $stmt= $con->prepare($sql);
-    $stmt->execute([$nombre, $dni, $alta_baja]);
-}
-?>
+    
 
 <div class="section-image">
     <img src="../assets/img/diagramaCoche.jpg" alt="">
 </div>
->>>>>>> 0ae68996cd6f85ede5b0e323d3009a87ded22a01
-    
-
-<script src="app.js"></script>
+<div id="car-diagram">
+    <img src="../assets/img/diagramaCoche.jpg" alt="" style="width:100%">
+    <div class="hotspot front-bumper" onclick="reportDamage('Front Bumper')"></div>
+</div>   
+    <div id="car-diagram">
+    <img src="../assets/img/diagramaCoche.jpg" alt="" style="width:100%">
+    <div id="grid">
+      <!-- Generamos 72 celdas (9x8) -->
+      <?php for ($i = 0; $i < 72; $i++): ?>
+        <div class="cell" onclick="reportDamage(<?php echo $i % 9; ?>, <?php echo floor($i / 9); ?>)"></div>
+      <?php endfor; ?>
+    </div>
+  </div>
+<script>
+    function reportDamage(partName) {
+      var damageDescription = prompt("Por favor, describe el daño a " + partName);
+      if (damageDescription != null) {
+        // Aquí es donde enviarías el daño a la base de datos
+        console.log("Reported damage to " + partName + ": " + damageDescription);
+      }
+    }
+  </script>
 </body>
 
 </html>
