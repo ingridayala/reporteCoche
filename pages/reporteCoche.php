@@ -65,6 +65,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     $stmt->execute([$nombre, $dni, $alta_baja]);
 }
 ?>
+
+<div class="section-image">
+    <img src="../assets/img/diagramaCoche.jpg" alt="">
+</div>
     
 
 <script src="app.js"></script>
