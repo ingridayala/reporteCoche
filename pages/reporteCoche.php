@@ -12,37 +12,13 @@ $conexion = $bbdd->connect();
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reporte Coche</title>
-    <style>
-    #car-diagram {
-      position: relative;
-      width: 100%;
-      max-width: 600px;
-    }
-    #grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      grid-template-rows: repeat(2, 1fr);
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-    }
-    .cell {
-      border: 1px solid rgba(255, 255, 255, 0.5);  /* Para visualizar las celdas */
-      background: transparent;
-    }
-    .cell:hover {
-      background: rgba(0, 255, 0, 0.5);  /* Cambia el color al pasar el ratón */
-    }
-  </style>
-
+    <link rel="stylesheet" href="/assets/css/reporteCoche.css">
 </head>
 
 <body>
   <h1>Inspección de Taxi</h1>
 
-  <form method="post" action="">
+  <form class="form" method="post" action="">
     <label for="licencia">Licencia:</label>
     <input type="text" id="licencia" name="licencia">
     <input type="submit" name="buscar" value="Buscar">
