@@ -44,7 +44,7 @@ $conexion = $bbdd->connect();
 <body>
   <h1>Inspección de Taxi</h1>
 
-  <form method="post" action="">
+  <form class="form" method="post" action="">
     <label for="licencia">Licencia:</label>
     <input type="text" id="licencia" name="licencia">
     <input type="submit" name="buscar" value="Buscar">
