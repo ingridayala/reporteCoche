@@ -12,6 +12,7 @@ $conexion = $bbdd->connect();
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reporte Coche</title>
+    <link rel="stylesheet" href="/assets/css/reporteCoche.css">
     <style>
     #car-diagram {
       position: relative;
@@ -44,7 +45,7 @@ $conexion = $bbdd->connect();
 <body>
   <h1>Inspección de Taxi</h1>
 
-  <form class="form" method="post" action="">
+  <form class="container-form" method="post" action="">
     <label for="licencia">Licencia:</label>
     <input type="text" id="licencia" name="licencia">
     <input type="submit" name="buscar" value="Buscar">

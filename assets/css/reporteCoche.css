@@ -1,29 +1,18 @@
-.form{
-    background-color: #7e7e7e;
-    margin: 5% auto 15% auto;
-    border: 1px solid #bebebe;
-    width: 450px;
+:root{
+      --color1: #000000;
+      --color2: #ffffff;
+      --grado1: #eeff00be;
+      --grado2: #ff9100cc;
+      --grado3: #ff0000c9;
 }
-
-#car-diagram {
-        position: relative;
-        width: 100%;
-        max-width: 600px;
-  }
-  #grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        grid-template-rows: repeat(2, 1fr);
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-  }
-  .cell {
-        border: 1px solid rgba(255, 255, 255, 0.5);  /* Para visualizar las celdas */
-        background: transparent;
-  }
-  .cell:hover {
-        background: rgba(0, 255, 0, 0.5);  /* Cambia el color al pasar el ratón */
-  }
+*{
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+}
+.container-form{
+      background-color: #7e7e7e;
+      margin: 5% auto 15% auto;
+      border: 1px solid #bebebe;
+      width: 450px;
+} 
