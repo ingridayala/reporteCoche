@@ -17,6 +17,7 @@ $conexion = $bbdd->connect();
       position: relative;
       width: 100%;
       max-width: 600px;
+      
     }
     #grid {
       display: grid;
@@ -35,6 +36,7 @@ $conexion = $bbdd->connect();
     .cell:hover {
       background: rgba(0, 255, 0, 0.5);  /* Cambia el color al pasar el ratón */
     }
+    
   </style>
 
 </head>
