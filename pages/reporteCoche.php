@@ -24,20 +24,26 @@ $conexion = $bbdd->connect();
             <input type="submit" name="buscar" value="Buscar">
             <?php
                 if (isset($_POST['buscar'])) {
-                    $licencia = $_POST['licencia'];
-
-                    $consulta = $conexion->prepare("SELECT * FROM taxis WHERE licencia = :licencia");
-                    $consulta->bindParam(':licencia', $licencia);
-                    $consulta->execute();
-
-                    $resultado = $consulta->fetch(PDO::FETCH_ASSOC);
-
-                    if ($resultado) {
-                        echo "Taxi encontrado: " . print_r($resultado, true);
+                    $nLicencia = $_POST['licencia'];
+                
+                    $sql = "SELECT * FROM licencia WHERE n_licencia = ?";
+                    $stmt = $ddbb->prepare($sql);
+                    $stmt->bind_param("i", $nLicencia);
+                    $stmt->execute();
+                    $result = $stmt->get_result();
+                
+                    if ($result->num_rows > 0) {
+                        while ($row = $result->fetch_assoc()) {
+                            // Procesar los datos de la licencia encontrada
+                        }
                     } else {
-                        echo "No se encontró un taxi con la licencia " . $licencia;
+                        // Licencia no encontrada
                     }
+                
+                    $stmt->close();
                 }
+                
+                $ddbb->close();
             ?>
         </form>
         <form class="contain-form" action="addConductor.php" method="post">
