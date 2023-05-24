@@ -23,15 +23,13 @@ $conexion = $bbdd->connect();
             <input type="text" id="licencia" name="licencia"><br>
             <input type="submit" name="buscar" value="Buscar">
             <?php
-            
-
                 if (isset($_POST['buscar'])) {
                     $licencia = $_POST['licencia'];
                 
                     $db = new conexion();
                     $connection = $db->connect();
                 
-                    // Preparar la consulta SQL
+                    // Preparar la consulta SQL, saca toda la informacion del vehiculo y el conductor, partiendo de la licencia 
                     $stmt = $connection->prepare("SELECT licencia.n_licencia, vehiculo.matricula, vehiculo.marca, vehiculo.modelo, conductor.nombre_apellidos, conductor.dni_nie
                                                   FROM licencia
                                                   INNER JOIN vehiculo ON licencia.idlicencia = vehiculo.licencia_idlicencia
