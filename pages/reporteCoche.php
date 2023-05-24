@@ -23,27 +23,40 @@ $conexion = $bbdd->connect();
             <input type="text" id="licencia" name="licencia"><br>
             <input type="submit" name="buscar" value="Buscar">
             <?php
+            
+
                 if (isset($_POST['buscar'])) {
-                    $nLicencia = $_POST['licencia'];
+                    $licencia = $_POST['licencia'];
                 
-                    $sql = "SELECT * FROM licencia WHERE n_licencia = ?";
-                    $stmt = $ddbb->prepare($sql);
-                    $stmt->bind_param("i", $nLicencia);
-                    $stmt->execute();
-                    $result = $stmt->get_result();
+                    $db = new conexion();
+                    $connection = $db->connect();
                 
-                    if ($result->num_rows > 0) {
-                        while ($row = $result->fetch_assoc()) {
-                            // Procesar los datos de la licencia encontrada
-                        }
-                    } else {
-                        // Licencia no encontrada
+                    // Preparar la consulta SQL
+                    $stmt = $connection->prepare("SELECT licencia.n_licencia, vehiculo.matricula, vehiculo.marca, vehiculo.modelo, conductor.nombre_apellidos, conductor.dni_nie
+                                                  FROM licencia
+                                                  INNER JOIN vehiculo ON licencia.idlicencia = vehiculo.licencia_idlicencia
+                                                  INNER JOIN (SELECT * FROM vehiculo_historial_conductor ORDER BY fecha_comienzo DESC) AS vehiculo_historial_conductor 
+                                                  ON vehiculo.idvehiculo = vehiculo_historial_conductor.vehiculo_idvehiculo
+                                                  INNER JOIN conductor ON vehiculo_historial_conductor.conductor_idconductor = conductor.idconductor
+                                                  WHERE licencia.n_licencia = ?
+                                                  GROUP BY vehiculo.idvehiculo");
+                    // Ejecutar la consulta
+                    $stmt->execute([$licencia]);
+                
+                    // Obtener los resultados
+                    $resultados = $stmt->fetchAll();
+                
+                    // Mostrar los resultados
+                    foreach ($resultados as $resultado) {
+                        echo 'Licencia: ' . $resultado['n_licencia'] . '<br>';
+                        echo 'Matrícula del vehículo: ' . $resultado['matricula'] . '<br>';
+                        echo 'Marca del vehículo: ' . $resultado['marca'] . '<br>';
+                        echo 'Modelo del vehículo: ' . $resultado['modelo'] . '<br>';
+                        echo 'Nombre del conductor: ' . $resultado['nombre_apellidos'] . '<br>';
+                        echo 'DNI del conductor: ' . $resultado['dni_nie'] . '<br>';
                     }
-                
-                    $stmt->close();
                 }
                 
-                $ddbb->close();
             ?>
         </form>
         <form class="contain-form" action="addConductor.php" method="post">
