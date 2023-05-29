@@ -8,7 +8,7 @@ class conexion{
 
     public function __construct(){
         $this -> host = "localhost";
-        $this -> bbdd = "report_coche";
+        $this -> bbdd = "taller";
         $this -> user = "root";
         $this -> pass = "";
     }

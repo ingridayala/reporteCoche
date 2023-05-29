@@ -12,51 +12,93 @@ $conexion = $bbdd->connect();
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reporte Coche</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../assets/css/reporteCoche.css">    
 </head>
 
 <body>
-    <h1>Inspección de Taxi</h1>
-    <div class="container-form">
-        <form class="contain-form" method="post" action="">
-            <label for="licencia">Licencia:</label><br>
-            <input type="text" id="licencia" name="licencia"><br>
-            <input type="submit" name="buscar" value="Buscar">
-            <?php
-                if (isset($_POST['buscar'])) {
-                    $licencia = $_POST['licencia'];
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">Inspección de Taxi</a>
+  </nav>
+
+<div class="container mt-4">
+     <form class="form-inline" method="post" action="">
+      <div class="form-group mb-2">
+        <label for="n_licencia" class="sr-only">Licencia</label>
+        <input type="text" class="form-control" id="n_licencia" name="n_licencia" placeholder="Introduce la Licencia">
+      </div>
+      <button type="submit" name="buscar" class="btn btn-primary mb-2">Buscar</button>
+    </form>
+  </div>
+        <?php
+            if (isset($_POST['buscar'])) {
+                $n_licencia = $_POST['n_licencia'];
+            
+                try {
+                    $bbdd = new conexion();
+                    $connection = $bbdd->connect();
+                    $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                 
-                    $db = new conexion();
-                    $connection = $db->connect();
-                
-                    // Preparar la consulta SQL, saca toda la informacion del vehiculo y el conductor, partiendo de la licencia 
-                    $stmt = $connection->prepare("SELECT licencia.n_licencia, vehiculo.matricula, vehiculo.marca, vehiculo.modelo, conductor.nombre_apellidos, conductor.dni_nie
-                                                  FROM licencia
-                                                  INNER JOIN vehiculo ON licencia.idlicencia = vehiculo.licencia_idlicencia
-                                                  INNER JOIN (SELECT * FROM vehiculo_historial_conductor ORDER BY fecha_comienzo DESC) AS vehiculo_historial_conductor 
-                                                  ON vehiculo.idvehiculo = vehiculo_historial_conductor.vehiculo_idvehiculo
-                                                  INNER JOIN conductor ON vehiculo_historial_conductor.conductor_idconductor = conductor.idconductor
-                                                  WHERE licencia.n_licencia = ?
-                                                  GROUP BY vehiculo.idvehiculo");
-                    // Ejecutar la consulta
-                    $stmt->execute([$licencia]);
-                
-                    // Obtener los resultados
+                    // Prepare SQL statement
+                    $stmt = $connection->prepare("SELECT v.matricula, c.nombre_apellidos, r.descripcion_danio, p.codigo
+                    FROM (
+                        SELECT vehiculo_idvehiculo, MAX(idhistorial) as max_idhistorial
+                        FROM taller.historial_cv
+                        GROUP BY vehiculo_idvehiculo
+                    ) hv
+                    JOIN taller.historial_cv h ON hv.vehiculo_idvehiculo = h.vehiculo_idvehiculo AND hv.max_idhistorial = h.idhistorial
+                    JOIN taller.conductor c ON h.conductor_idconductor = c.idconductor
+                    JOIN taller.vehiculo v ON h.vehiculo_idvehiculo = v.idvehiculo
+                    LEFT JOIN taller.revisiones r ON v.idvehiculo = r.vehiculo_idvehiculo
+                    LEFT JOIN taller.incidencia i ON r.idrevisiones = i.revisiones_idrevisiones
+                    LEFT JOIN taller.parte p ON i.parte_idparte = p.idparte
+                    JOIN taller.licencia l ON v.licencia_idlicencia = l.idlicencia
+                    WHERE l.n_licencia = ?;
+                    ");
+
+                    // Execute statement
+                    $stmt->execute([$n_licencia]);
+
                     $resultados = $stmt->fetchAll();
                 
-                    // Mostrar los resultados
                     foreach ($resultados as $resultado) {
-                        echo 'Licencia: ' . $resultado['n_licencia'] . '<br>';
-                        echo 'Matrícula del vehículo: ' . $resultado['matricula'] . '<br>';
-                        echo 'Marca del vehículo: ' . $resultado['marca'] . '<br>';
-                        echo 'Modelo del vehículo: ' . $resultado['modelo'] . '<br>';
-                        echo 'Nombre del conductor: ' . $resultado['nombre_apellidos'] . '<br>';
-                        echo 'DNI del conductor: ' . $resultado['dni_nie'] . '<br>';
+                        echo '<div class="card mb-3">';
+                        echo '<div class="card-body">';
+                        echo '<h5 class="card-title">Matrícula del vehículo: ' . $resultado['matricula'] . '</h5>';
+                        echo '<p class="card-text">Nombre del conductor: ' . $resultado['nombre_apellidos'] . '</p>';
+                        echo '<p class="card-text">Descripción del daño: ' . $resultado['descripcion_danio'] . '</p>';
+                        echo '<p class="card-text">Código de parte dañada: ' . $resultado['codigo'] . '</p>';
+                        echo '</div>';
+                        echo '</div>';
                     }
+                    
+                    // Create an array to represent the grid
+                    $grid = array_fill(0, 6, array_fill(0, 9, ' '));
+                    foreach ($resultados as $resultado) {
+                        $parte = $resultado['codigo']; // e.g., 'B2'
+                        $fila = (int) $parte[1] - 1; // second character converted to zero-based index
+                        $columna = ord($parte[0]) - ord('A'); // first character converted to zero-based index
+                        $grid[$fila][$columna] = 'X';
+                    }
+
+                    // Print the grid
+                    echo '<div class="grid-container" style="background-image: url(\'../assets/img/diagramaCoche.jpg\');">';
+                    foreach ($grid as $fila => $row) {
+                        foreach ($row as $columna => $cell) {
+                            if ($cell == 'X') {
+                                echo '<div class="damage-indicator" style="grid-row: ' . ($fila + 1) . '; grid-column: ' . ($columna + 1) . ';"></div>';
+                            }
+                        }
+                    }
+                    echo '</div>';
+                } catch(PDOException $e) {
+                    echo "Error: " . $e->getMessage();
                 }
-                
-            ?>
-        </form>
+            }
+        ?>
+    </form>
+</div>
+
         <form class="contain-form" action="addConductor.php" method="post">
             <label for="nombre">Nombre:</label><br>
             <input type="text" id="nombre" name="nombre"><br>
@@ -113,5 +155,8 @@ $conexion = $bbdd->connect();
 
     }
     </script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 </body>
 </html>

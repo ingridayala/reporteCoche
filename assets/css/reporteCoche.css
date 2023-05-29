@@ -1,85 +1,19 @@
-:root{
-      --color1: #000000;
-      --color2: #ffffff;
-      --grado1: #eeff0081;
-      --grado2: #ff910081;
-      --grado3: #ff000081;
-}
-*{
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-}
-/*foto coche control  daños */
-#car-diagram {
-      position: relative;
-      width: 100%;
-      max-width: 600px;
-      
-}
-#grid {
+
+
+.grid-container {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      grid-template-rows: repeat(2, 1fr);
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-}
-.cell {
-      border: 1px solid rgba(255, 255, 255, 0.5);  /* Para visualizar las celdas */
-      background: transparent;
-}
-.cell:hover {
-      background: rgba(0, 255, 0, 0.5);  /* Cambia el color al pasar el ratón */
-}
-/*fin foto coche control  daños */
-h1{
-      margin: 25px;
-}
-.container-form{
+      grid-template-columns: repeat(9, 1fr);
+      grid-template-rows: repeat(6, 1fr);
+      width: 800px;
+      height: 500px;
       position: relative;
-      width: 100%;
-      height: 100%;
-      margin: 25px;
-      
-}
-.contain-form{
-      padding: 10px;
-      background-color: #a5a5a5;
-      border: 1px solid #4b4b4b;
-      width: 400px;
-}
-.contain-form > label{
-      margin: 10px;
-      font-size: 18px;
-      font-weight: bold;
-
-
-}
-.contain-form > input[type=text], 
-.contain-form > input[type=number] {
-      width: 90%;
-      padding: 12px 15px;
-      margin: 8px 10px 8px 10px;
-      background-color: #fdfdfd;
-      display: inline-block;
-      border: 1.5px solid var(--color2);
-      box-sizing: border-box;
-}
-.contain-form > input[type=submit] {
-      width: 90%;
-      padding: 12px 15px;
-      margin: 8px 10px 8px 10px;
-      color: #ffffff;
-      background-color: #4b4b4b;
-      display: inline-block;
-      border: 1.5px solid var(--color2);
-      box-sizing: border-box;
-}
-.contain-form > input[type=submit]:hover{
-      cursor: pointer;
-      background-color: #838383;
-}
-
+  }
+  
+  .damage-indicator {
+      background-color: rgba(255, 0, 0, 0.5);
+      grid-column-start: 1;
+      grid-column-end: 2;
+      grid-row-start: 1;
+      grid-row-end: 2;
+  }
+  
