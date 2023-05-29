@@ -4,9 +4,12 @@
       display: grid;
       grid-template-columns: repeat(9, 1fr);
       grid-template-rows: repeat(6, 1fr);
-      width: 800px;
-      height: 500px;
+      width: 100%;
+      max-width: 800px;
+      height: 100%;
+      height: 540px;
       position: relative;
+      
   }
   
   .damage-indicator {
