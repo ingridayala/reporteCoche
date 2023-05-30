@@ -1,24 +1,43 @@
 <?php
-require 'conexion.php';
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-$conexion = new conexion();
-$conn = $conexion->connect();
-$_SESSION['vehiculos'] = $vehiculos;
+require_once '../includes/conexion.php';
 
-// Recoge los datos del POST
+// Obtén los datos enviados con la petición POST
 $matricula = $_POST['matricula'];
-$conductor = $_POST['conductor_idconductor'];
-$vehiculo = $_POST['vehiculo_idvehiculo'];
-$descripcion_danio = $_POST['descripcion_danio'];
-$incidencia = $_POST['incidencia'];
+$conductor = $_POST['conductor'];
+$damage = $_POST['damage'];
 
-// Crear una nueva revisión con la misma matrícula y los datos del conductor
-$query = "INSERT INTO revisiones (fecha_revisiones, descripcion_danio, incidencia, vehiculo_idvehiculo, conductor_idconductor) 
-          VALUES (NOW(), '$descripcion_danio', $incidencia, $vehiculo, $conductor)";
-$stmt = $conn->prepare($query);
-$stmt->execute([$descripcion_danio, $incidencia, $vehiculo, $conductor]);
+// Crear una nueva instancia de conexion
+$bbdd = new conexion();
+$connection = $bbdd->connect();
 
-echo 'Registro de revisión actualizado correctamente.';
+// Preparar la consulta SQL para obtener el id del vehiculo y el id del conductor
+$stmt = $connection->prepare("SELECT v.idvehiculo, c.idconductor FROM taller.vehiculo v JOIN taller.conductor c ON c.nombre_apellidos = :nombre_apellidos WHERE v.matricula = :matricula");
+$stmt->execute([
+    'nombre_apellidos' => $conductor,
+    'matricula' => $matricula
+]);
+$result = $stmt->fetch();
+
+// Si no se encontraron resultados, salimos
+if (!$result) {
+    echo 'No se encontraron registros de vehículos o conductores.';
+    exit;
+}
+
+// Asignamos los ids del vehiculo y el conductor a variables
+$idvehiculo = $result['idvehiculo'];
+$idconductor = $result['idconductor'];
+
+// Preparar la consulta SQL para insertar en la tabla de revisiones
+$stmt = $connection->prepare("INSERT INTO `taller`.`revisiones` (`fecha_revisones`, `descripcion_danio`, `incidencia`, `vehiculo_idvehiculo`, `conductor_idconductor`) VALUES (CURRENT_TIMESTAMP, :descripcion_danio, :incidencia, :vehiculo_idvehiculo, :conductor_idconductor)");
+
+// Ejecutar la consulta SQL con los datos enviados
+$stmt->execute([
+    'descripcion_danio' => $damage,
+    'incidencia' => 1, // puedes cambiar esto según tus necesidades
+    'vehiculo_idvehiculo' => $idvehiculo,
+    'conductor_idconductor' => $idconductor,
+]);
+
+echo 'Registros actualizados correctamente.';
 ?>
