@@ -1,5 +1,3 @@
-
-
 .grid-container {
       display: grid;
       grid-template-columns: repeat(9, 1fr);
@@ -10,13 +8,26 @@
       height: 540px;
       position: relative;
       
-  }
+      
+}
   
-  .damage-indicator {
+.damage-indicator {
       background-color: rgba(255, 0, 0, 0.5);
       grid-column-start: 1;
       grid-column-end: 2;
       grid-row-start: 1;
       grid-row-end: 2;
-  }
-  
+}
+.damage-light {
+    background-color: rgba(255, 255, 0, 0.5) !important;
+    
+}
+.damage-medium {
+    background-color: rgba(255, 136, 0, 0.5) !important;
+}
+.damage-heavy {
+    background-color: rgba(255, 0, 0, 0.5) !important;
+}
+.damage-reparado {
+    background-color: rgba(114, 255, 7, 0.5) !important;
+}
