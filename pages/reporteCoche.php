@@ -43,7 +43,7 @@ $conexion = $bbdd->connect();
             $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
             // Prepare SQL statement
-            $stmt = $connection->prepare("SELECT v.matricula, c.nombre_apellidos, r.descripcion_danio, p.codigo
+            $stmt = $connection->prepare("SELECT v.matricula, c.nombre_apellidos,r.idrevisiones, r.descripcion_danio, p.codigo
                     FROM (
                         SELECT vehiculo_idvehiculo, MAX(idhistorial) as max_idhistorial
                         FROM taller.historial_cv
@@ -66,12 +66,13 @@ $conexion = $bbdd->connect();
 
             // Crea un arreglo para agrupar los daños por matrícula
             $vehiculos = [];
-            
+
             foreach ($resultados as $resultado) {
                 $matricula = $resultado['matricula'];
                 if (!isset($vehiculos[$matricula])) {
                     // Si este vehículo aún no está en el arreglo, agrégalo
                     $vehiculos[$matricula] = [
+                        'idrevisiones' => $resultado['idrevisiones'],
                         'nombre_apellidos' => $resultado['nombre_apellidos'],
                         'descripcion_danio' => $resultado['descripcion_danio'],
                         'danios' => []
@@ -81,25 +82,25 @@ $conexion = $bbdd->connect();
                 $vehiculos[$matricula]['danios'][] = [
                     'codigo' => $resultado['codigo']
                 ];
-                
             }
-
-            // Ahora imprime los resultados
+            $salida = '';
             foreach ($vehiculos as $matricula => $vehiculo) {
-                echo '<div class="card mb-3">';
-                echo '<div class="card-body">';
-                echo '<h5 class="card-title">Matrícula del vehículo: ' . $matricula . '</h5>';
-                echo '<p class="card-text">Nombre del conductor: ' . $vehiculo['nombre_apellidos'] . '</p>';
-                echo '<p class="card-text">Descripción del daño: ' . $vehiculo['descripcion_danio'] . '</p>';
-                
-                foreach ($vehiculo['danios'] as $dano) {
+                $salida .= '<div class="card mb-3">';
+                $salida .= '<div class="card-body">';
+                $salida .= '<h5 class="card-title">Matrícula del vehículo: ' . $matricula . '</h5>';
+                $salida .= '<p class="card-text">Nombre del conductor: ' . $vehiculo['nombre_apellidos'] . '</p>';
+                $salida .= '<p class="card-text">ID de revisión: ' . $vehiculo['idrevisiones'] . '</p>';
+                $salida .= '<p class="card-text">Descripción del daño: ' . $vehiculo['descripcion_danio'] . '</p>';
 
-                    echo '<p class="card-text">Código de parte dañada: ' . $dano['codigo'] . '</p>';
+                foreach ($vehiculo['danios'] as $dano) {
+                    
+                    $salida .= '<p class="card-text">Código de parte dañada: ' . $dano['codigo'] . '</p>';
                 }
-                
-                echo '</div>';
-                echo '</div>';
+                $salida .= '<button class="btn btn-primary update-button" data-matricula="'.$matricula.'" data-conductor="'.$vehiculo['nombre_apellidos'].'">Actualizar</button>';
+                $salida .= '</div>';
+                $salida .= '</div>';
             }
+            echo $salida;
 
             // Create an array to represent the grid
             $grid = array_fill(0, 6, array_fill(0, 9, ' '));
@@ -127,6 +128,29 @@ $conexion = $bbdd->connect();
         }
     }
     ?>
+    <script>
+        $(document).ready(function() {
+            $(".update-button").click(function() {
+                var matricula = $(this).data('matricula');
+                var conductor = $(this).data('conductor');
+                var damage = confirm('¿Hay algún daño en el vehículo?');
+                if (damage) {
+                    // Enviar una solicitud AJAX para crear los registros necesarios
+                    $.post("update_records.php", {
+                            matricula: matricula,
+                            conductor: conductor,
+                            damage: damage
+                        })
+                        .done(function(data) {
+                            alert("Registro de revisión e incidencia (si aplica) agregados con éxito.");
+                        })
+                        .fail(function(error) {
+                            alert("Hubo un error en la actualización de los registros. Por favor, inténtalo de nuevo.");
+                        });
+                }
+            });
+        });
+    </script>
     </form>
     <!-- Modal -->
     <div class="modal fade" id="damageModal" tabindex="-1" role="dialog" aria-labelledby="damageModalLabel" aria-hidden="true">
@@ -176,7 +200,7 @@ $conexion = $bbdd->connect();
                 </div>
             </div>
         </div>
-        
+
     </div>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -213,10 +237,10 @@ $conexion = $bbdd->connect();
                     selectedCell.addClass('damage-medium');
                 } else if (damageLevel == "heavy") {
                     selectedCell.addClass('damage-heavy');
-                }else if (damageLevel == "reparado") {
+                } else if (damageLevel == "reparado") {
                     selectedCell.addClass('damage-reparado');
                 }
-               
+
                 // Envía la información al servidor
                 $.post("update_damage.php", {
                         cell_id: selectedCell.attr('id'),

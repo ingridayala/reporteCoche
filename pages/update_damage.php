@@ -1,5 +1,8 @@
 <?php
 require_once '../includes/conexion.php';
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
     // Inicia una nueva conexión a la base de datos
     $bbdd = new conexion();
