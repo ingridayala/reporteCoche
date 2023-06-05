@@ -57,4 +57,19 @@ $(document).ready(function() {
                 console.log("Error: " + error);
             });
     });
+    
 });
+
+function updateReporte(revisionId) {
+    fetch(`getReporte.php?id=${revisionId}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                // Mostrar el error
+                console.error(data.error);
+            } else {
+                // Actualizar la interfaz de usuario con los datos de la nueva revisión
+                // ... tu código para actualizar la interfaz de usuario ...
+            }
+        });
+}

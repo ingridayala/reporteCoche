@@ -16,11 +16,11 @@ $stmt->execute([
     'nombre_apellidos' => $conductor,
     'matricula' => $matricula
 ]);
-$result = $stmt->fetch();
+$result = $stmt->fetch(PDO::FETCH_ASSOC);
 
 // Si no se encontraron resultados, salimos
 if (!$result) {
-    echo 'No se encontraron registros de vehículos o conductores.';
+    echo  json_encode(['error' => 'No se encontraron registros de vehículos o conductores.']);
     exit;
 }
 
@@ -38,6 +38,12 @@ $stmt->execute([
     'vehiculo_idvehiculo' => $idvehiculo,
     'conductor_idconductor' => $idconductor,
 ]);
+if ($stmt->rowCount() > 0) {
+    $nuevaRevisionId = $connection->lastInsertId();
+    echo json_encode(['nuevaRevisionId' => $nuevaRevisionId]);
+    echo 'Registros actualizados correctamente.';
+} else {
+    echo json_encode(['error' => 'No se pudo insertar la nueva revisión.']);
+}
 
-echo 'Registros actualizados correctamente.';
 ?>

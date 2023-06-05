@@ -1,10 +1,10 @@
 <?php
 
-require_once '../includes/conexion.php';
+require_once 'conexion.php';
 $bbdd = new conexion();
 $connection = $bbdd->connect();
 
-// Tu código para interactuar con la base de datos va aquí
+
 function obtenerVehiculos($n_licencia) {
     $bbdd = new conexion();
     $connection = $bbdd->connect();
@@ -50,6 +50,7 @@ function obtenerVehiculos($n_licencia) {
          ];
      }
      $salida = '';
+     //visualiza los datos del vehiculo y el coductor por medio del numero de licencia
      foreach ($vehiculos as $matricula => $vehiculo) {
          $salida .= '<div class="card mb-3">';
          $salida .= '<div class="card-body">';
@@ -62,18 +63,19 @@ function obtenerVehiculos($n_licencia) {
              
              $salida .= '<p class="card-text">Código de parte dañada: ' . $dano['codigo'] . '</p>';
          }
+         //
          $salida .= '<button class="btn btn-primary update-button" data-matricula="'.$matricula.'" data-conductor="'.$vehiculo['nombre_apellidos'].'">Actualizar</button>';
          $salida .= '</div>';
          $salida .= '</div>';
      }
      echo $salida;
 
-     // Create an array to represent the grid
+     // Crea un array para representra  grid
      $grid = array_fill(0, 6, array_fill(0, 9, ' '));
      foreach ($resultados as $resultado) {
          $parte = $resultado['codigo']; // e.g., 'B2'
-         $fila = (int) $parte[1] - 1; // second character converted to zero-based index
-         $columna = ord($parte[0]) - ord('A'); // first character converted to zero-based index
+         $fila = (int) $parte[1] - 1; //segundo carácter convertido a índice basado en cero
+         $columna = ord($parte[0]) - ord('A'); // primer carácter convertido a índice basado en cero
          $grid[$fila][$columna] = 'X';
      }
      // Print the grid 2
@@ -92,7 +94,7 @@ function obtenerVehiculos($n_licencia) {
      } catch (PDOException $e) {
      echo "Error: " . $e->getMessage();
     }
-    // ... más lógica aquí ...
+   
 
     return $vehiculos;}
 

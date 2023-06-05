@@ -1,6 +1,8 @@
 <?php
 require_once '../includes/conexion.php';
-
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 $bbdd = new conexion();
 $conexion = $bbdd->connect();
 ?>
@@ -36,35 +38,14 @@ $conexion = $bbdd->connect();
     <?php
     require_once '../includes/logica.php';
     if (isset($_POST['buscar'])) {
+        
         $n_licencia = $_POST['n_licencia'];
         $vehiculos = obtenerVehiculos($n_licencia);
         //mediente el numero de numero de licencia obtenemos todos los datos del vehiculo y el conductor 
     }
     ?>
+    <script src="../assets/js/reporteCoche.js"></script>
     
-    <script>
-        $(document).ready(function() {
-            $(".update-button").click(function() {
-                var matricula = $(this).data('matricula');
-                var conductor = $(this).data('conductor');
-                var damage = confirm('¿Hay algún daño en el vehículo?');
-                if (damage) {
-                    // Enviar una solicitud AJAX para crear los registros necesarios
-                    $.post("update_records.php", {
-                            matricula: matricula,
-                            conductor: conductor,
-                            damage: damage
-                        })
-                        .done(function(data) {
-                            alert("Registro de revisión e incidencia (si aplica) agregados con éxito.");
-                        })
-                        .fail(function(error) {
-                            alert("Hubo un error en la actualización de los registros. Por favor, inténtalo de nuevo.");
-                        });
-                }
-            });
-        });
-    </script>
     </form>
     <!-- Modal -->
     <div class="modal fade" id="damageModal" tabindex="-1" role="dialog" aria-labelledby="damageModalLabel" aria-hidden="true">
@@ -117,61 +98,7 @@ $conexion = $bbdd->connect();
 
     </div>
     
-    <script>
-        $(document).ready(function() {
-            var selectedCell = null;
-
-            $(".grid-cell").click(function() {
-                var id = $(this).attr('id');
-                selectedCell = $(this);
-
-                var idParts = id.split('-');
-                var row = parseInt(idParts[1] + 1);
-                var column = String.fromCharCode('a'.charCodeAt(0) + parseInt(idParts[2]) - 1);
-
-                console.log("Cell clicked: " + id);
-                console.log("Row: " + row + ", Column: " + column);
-
-                // Muestra la modal
-                $("#damageModal").modal('show');
-            });
-
-            $("#saveDamage").click(function() {
-                // Obtiene el tipo y nivel de daño seleccionado
-                var damageType = $("input[name='damageType']:checked").val();
-                var damageLevel = $("input[name='damageLevel']:checked").val();
-
-                console.log("Damage type: " + damageType);
-                console.log("Damage level: " + damageLevel);
-
-                // Actualiza el color de la celda seleccionada basado en el nivel de daño
-                if (damageLevel == "light") {
-                    selectedCell.addClass('damage-light');
-                } else if (damageLevel == "medium") {
-                    selectedCell.addClass('damage-medium');
-                } else if (damageLevel == "heavy") {
-                    selectedCell.addClass('damage-heavy');
-                } else if (damageLevel == "reparado") {
-                    selectedCell.addClass('damage-reparado');
-                }
-
-                // Envía la información al servidor
-                $.post("update_damage.php", {
-                        cell_id: selectedCell.attr('id'),
-                        damage_type: damageType,
-                        damage_level: damageLevel
-                    })
-                    .done(function(data) {
-                        console.log("Data Loaded: " + data);
-                        // Cierra la modal
-                        $("#damageModal").modal('hide');
-                    })
-                    .fail(function(error) {
-                        console.log("Error: " + error);
-                    });
-            });
-        });
-    </script>
+   
     
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
