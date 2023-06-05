@@ -1,15 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="/assets/css/reporteCoche.css">
-</head>
-<body>
-    <?php
-        header("Location: pages/reporteCoche.php")
-    ?>
-</body>
-</html>
+<?php
+require_once './includes/conexion.php';
+require_once './includes/logica.php';
+
+$bbdd = new conexion();
+$conexion = $bbdd->connect();
+
+if (isset($_POST['buscar'])) {
+    $n_licencia = $_POST['n_licencia'];
+    $vehiculos = obtenerVehiculos($n_licencia);
+}
+
+include './views/reporteCoche.php';
+?>

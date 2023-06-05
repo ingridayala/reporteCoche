@@ -20,7 +20,7 @@ error_reporting(E_ALL);
     // Convierte la fila y la columna a un código de parte
     // Esto asume que tu código de parte sigue el formato 'A1', 'B2', etc.
     $codigo_parte = chr(ord('A') + $columna) . ($fila + 1);
-
+    
     // Obtén el tipo y nivel de daño
     $tipo_danio = $_POST['damage_type'];
     $nivel_danio = $_POST['damage_level'];
@@ -31,7 +31,7 @@ error_reporting(E_ALL);
     
     try {
         // Prepara y ejecuta una consulta SQL para insertar una nueva incidencia
-        $stmt = $connection->prepare("INSERT INTO incidencias (parte_idparte, revisiones_idrevisiones, tipo, nivel) VALUES (?, ?, ?, ?)");
+        $stmt = $connection->prepare("INSERT INTO incidencia (parte_idparte, revisiones_idrevisiones, tipo, nivel) VALUES (?, ?, ?, ?)");
         $stmt->execute([$codigo_parte, $revision_id, $tipo_danio, $nivel_danio]);
 
         echo "Éxito: Incidencia creada";
