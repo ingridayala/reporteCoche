@@ -24,7 +24,8 @@ function obtenerVehiculos($n_licencia) {
     LEFT JOIN taller.incidencia i ON r.idrevisiones = i.revisiones_idrevisiones
     LEFT JOIN taller.parte p ON i.parte_idparte = p.idparte
     JOIN taller.licencia l ON v.licencia_idlicencia = l.idlicencia
-    WHERE l.n_licencia = ?"); // tu consulta SQL
+    WHERE l.n_licencia = ?
+    "); 
 
      $stmt->execute([$n_licencia]);
 
@@ -63,8 +64,9 @@ function obtenerVehiculos($n_licencia) {
              
              $salida .= '<p class="card-text">Código de parte dañada: ' . $dano['codigo'] . '</p>';
          }
-         //
+         //ACTUALIZAR 
          $salida .= '<button class="btn btn-primary update-button" data-matricula="'.$matricula.'" data-conductor="'.$vehiculo['nombre_apellidos'].'">Actualizar</button>';
+         $salida .= '<button class="btn btn-primary noupdate-button" data-matricula="'.$matricula.'" data-conductor="'.$vehiculo['nombre_apellidos'].'">No hay cambios</button>';
          $salida .= '</div>';
          $salida .= '</div>';
      }

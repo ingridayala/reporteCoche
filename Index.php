@@ -9,7 +9,7 @@
 </head>
 <body>
     <?php
-        header("Location: ../pages/reporteCoche.php")
+        header("Location: pages/reporteCoche.php")
     ?>
 </body>
 </html>

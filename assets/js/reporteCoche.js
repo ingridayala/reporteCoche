@@ -17,7 +17,25 @@ $(document).ready(function() {
                 });
         }
     });
-
+    $(".noupdate-button").click(function() {
+        var matricula = $(this).data('matricula');
+        var conductor = $(this).data('conductor');
+        var noDamage = confirm('¿Estás seguro que no hay daños en el vehículo?');
+        if (noDamage) {
+            var damage = !noDamage;
+            $.post("../includes/no_cambios.php", {
+                    matricula: matricula,
+                    conductor: conductor,
+                    damage: damage
+                })
+                .done(function(data) {
+                    alert("Registro de revisión y 0 incidencias (si aplica) agregados con éxito.");
+                })
+                .fail(function(error) {
+                    alert("Hubo un error en la actualización de los registros. Por favor, inténtalo de nuevo.");
+                });
+        }
+    });
     var selectedCell = null;
 
     $(".grid-cell").click(function() {

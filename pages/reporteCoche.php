@@ -36,7 +36,7 @@ $conexion = $bbdd->connect();
         </form>
     </div>
     <?php
-    require_once '../includes/logica.php';
+    require_once '../includes/buscar_licencia.php';
     if (isset($_POST['buscar'])) {
         
         $n_licencia = $_POST['n_licencia'];
@@ -46,7 +46,7 @@ $conexion = $bbdd->connect();
     ?>
     <script src="../assets/js/reporteCoche.js"></script>
     
-    </form>
+
     <!-- Modal -->
     <div class="modal fade" id="damageModal" tabindex="-1" role="dialog" aria-labelledby="damageModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
