@@ -47,7 +47,7 @@ $conexion = $bbdd->connect();
     <script src="../assets/js/reporteCoche.js"></script>
     
 
-    <!-- Modal -->
+    <!-- Modal para rellenar la cuadricula-->
     <div class="modal fade" id="damageModal" tabindex="-1" role="dialog" aria-labelledby="damageModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -97,8 +97,6 @@ $conexion = $bbdd->connect();
         </div>
 
     </div>
-    
-   
     
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

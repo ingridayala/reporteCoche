@@ -11,21 +11,27 @@ function obtenerVehiculos($n_licencia) {
     $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     try {
     // Prepare SQL statement
-    $stmt = $connection->prepare("SELECT v.matricula, c.nombre_apellidos,r.idrevisiones, r.descripcion_danio, p.codigo
+    $stmt = $connection->prepare("SELECT v.matricula, c.nombre_apellidos, r.idrevisiones, r.descripcion_danio, p.codigo
     FROM (
-        SELECT vehiculo_idvehiculo, MAX(idhistorial) as max_idhistorial
+        SELECT vehiculo_idvehiculo, conductor_idconductor, MAX(idhistorial) as max_idhistorial
         FROM taller.historial_cv
-        GROUP BY vehiculo_idvehiculo
+        GROUP BY vehiculo_idvehiculo, conductor_idconductor
     ) hv
-    JOIN taller.historial_cv h ON hv.vehiculo_idvehiculo = h.vehiculo_idvehiculo AND hv.max_idhistorial = h.idhistorial
+    JOIN taller.historial_cv h ON hv.vehiculo_idvehiculo = h.vehiculo_idvehiculo AND hv.conductor_idconductor = h.conductor_idconductor AND hv.max_idhistorial = h.idhistorial
     JOIN taller.vehiculo v ON h.vehiculo_idvehiculo = v.idvehiculo
-    LEFT JOIN taller.revisiones r ON v.idvehiculo = r.vehiculo_idvehiculo
-    LEFT JOIN taller.conductor c ON r.conductor_idconductor = c.idconductor
+    JOIN taller.conductor c ON h.conductor_idconductor = c.idconductor
+    LEFT JOIN (
+        SELECT vehiculo_idvehiculo, conductor_idconductor, MAX(idrevisiones) as max_idrevisiones
+        FROM taller.revisiones
+        GROUP BY vehiculo_idvehiculo, conductor_idconductor
+    ) rv ON v.idvehiculo = rv.vehiculo_idvehiculo AND c.idconductor = rv.conductor_idconductor
+    LEFT JOIN taller.revisiones r ON rv.vehiculo_idvehiculo = r.vehiculo_idvehiculo AND rv.conductor_idconductor = r.conductor_idconductor AND rv.max_idrevisiones = r.idrevisiones
     LEFT JOIN taller.incidencia i ON r.idrevisiones = i.revisiones_idrevisiones
     LEFT JOIN taller.parte p ON i.parte_idparte = p.idparte
     JOIN taller.licencia l ON v.licencia_idlicencia = l.idlicencia
     WHERE l.n_licencia = ?
     "); 
+    
 
      $stmt->execute([$n_licencia]);
 
@@ -72,7 +78,7 @@ function obtenerVehiculos($n_licencia) {
      }
      echo $salida;
 
-     // Crea un array para representra  grid
+     // Crea un array para representa  grid
      $grid = array_fill(0, 6, array_fill(0, 9, ' '));
      foreach ($resultados as $resultado) {
          $parte = $resultado['codigo']; // e.g., 'B2'
