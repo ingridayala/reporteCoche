@@ -77,6 +77,45 @@ function obtenerVehiculos($n_licencia) {
          $salida .= '</div>';
      }
      echo $salida;
+     $matricula = $resultados[0]['matricula'];
+     $stmt2 = $connection->prepare("SELECT r.idrevisiones, r.descripcion_danio, r.fecha_revisiones, r.incidencia
+     FROM taller.revisiones r
+     JOIN taller.vehiculo v ON r.vehiculo_idvehiculo = v.idvehiculo
+     WHERE v.matricula = ? ORDER BY r.idrevisiones DESC");
+ $stmt2->execute([$matricula]);
+ $revisiones = $stmt2->fetchAll();
+
+ // Aquí puedes imprimir o procesar los resultados de las revisiones
+ echo '<table>';
+ echo '<tr><th>ID de revisión</th><th>Descripción del daño</th><th>Fecha de la revisión</th></tr>';
+ foreach ($revisiones as $revision) {
+     echo '<tr>';
+     echo '<td>' . $revision['idrevisiones'] . '</td>';
+     echo '<td>' . $revision['descripcion_danio'] . '</td>';
+     echo '<td>' . $revision['fecha_revisiones'] . '</td>';
+     if($revision['incidencia'] == 1) {
+        // Buscamos las partes dañadas relacionadas a la incidencia
+        $stmt3 = $connection->prepare("SELECT p.codigo 
+            FROM taller.incidencia i
+            JOIN taller.parte p ON i.parte_idparte = p.idparte
+            WHERE i.revisiones_idrevisiones = ?");
+        $stmt3->execute([$revision['idrevisiones']]);
+        $partes = $stmt3->fetchAll(PDO::FETCH_ASSOC);
+
+        echo '<td> Si </td>';
+        echo '<td>';
+        foreach ($partes as $parte) {
+            echo $parte['codigo'].', ';
+        }
+        echo '</td>';
+    } else {
+        echo '<td> No </td>';
+        echo '<td> - </td>';
+    }
+    echo '</tr>';
+}
+echo '</table>';
+ 
 
      // Crea un array para representa  grid
      $grid = array_fill(0, 6, array_fill(0, 9, ' '));
