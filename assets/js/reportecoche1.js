@@ -1,4 +1,3 @@
-
 $(document).ready(function() {
     $('#actualizar-button').click(function(e) {
     e.preventDefault();

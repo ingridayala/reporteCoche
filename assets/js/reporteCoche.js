@@ -1,93 +1,27 @@
 $(document).ready(function() {
-    $(".update-button").click(function() {
+    $(".update-button, .noupdate-button").click(function() {
         var matricula = $(this).data('matricula');
         var conductor = $(this).data('conductor');
-        var damage = confirm('¿Hay algún daño en el vehículo?');
-        if (damage) {
-            $.post("../includes/update_records.php", {
-                    matricula: matricula,
-                    conductor: conductor,
-                    damage: damage
-                })
-                .done(function(data) {
-                    alert("Registro de revisión e incidencia (si aplica) agregados con éxito.");
-                })
-                .fail(function(error) {
-                    alert("Hubo un error en la actualización de los registros. Por favor, inténtalo de nuevo.");
-                });
-        }
-    });
-    $(".noupdate-button").click(function() {
-        var matricula = $(this).data('matricula');
-        var conductor = $(this).data('conductor');
-        var noDamage = confirm('¿Estás seguro que no hay daños en el vehículo?');
-        if (noDamage) {
-            var damage = !noDamage;
-            $.post("../includes/no_cambios.php", {
-                    matricula: matricula,
-                    conductor: conductor,
-                    damage: damage
-                })
-                .done(function(data) {
-                    alert("Registro de revisión y 0 incidencias (si aplica) agregados con éxito.");
-                })
-                .fail(function(error) {
-                    alert("Hubo un error en la actualización de los registros. Por favor, inténtalo de nuevo.");
-                });
-        }
-    });
-    var selectedCell = null;
+        var damage = $(this).hasClass('update-button') ? confirm('¿Hay algún daño en el vehículo?') : !confirm('¿Estás seguro que no hay daños en el vehículo?');
+        
+        console.log(matricula, conductor, damage);  // Console log to verify the values
 
-    $(".grid-cell").click(function() {
-        var id = $(this).attr('id');
-        selectedCell = $(this);
-
-        var idParts = id.split('-');
-        var row = parseInt(idParts[1] + 1);
-        var column = String.fromCharCode('a'.charCodeAt(0) + parseInt(idParts[2]) - 1);
-
-        $("#damageModal").modal('show');
-    });
-
-    $("#saveDamage").click(function() {
-        var damageType = $("input[name='damageType']:checked").val();
-        var damageLevel = $("input[name='damageLevel']:checked").val();
-
-        if (damageLevel == "light") {
-            selectedCell.addClass('damage-light');
-        } else if (damageLevel == "medium") {
-            selectedCell.addClass('damage-medium');
-        } else if (damageLevel == "heavy") {
-            selectedCell.addClass('damage-heavy');
-        } else if (damageLevel == "reparado") {
-            selectedCell.addClass('damage-reparado');
-        }
-
-        $.post("../includes/update_damage.php", {
-                cell_id: selectedCell.attr('id'),
-                damage_type: damageType,
-                damage_level: damageLevel
+        $.post("../includes/crear_revision.php", {
+                matricula: matricula,
+                conductor: conductor,
+                damage: damage
             })
             .done(function(data) {
-                $("#damageModal").modal('hide');
+                console.log(data);  // Console log to verify the server response
+                alert(damage ? "Registro de revisión e incidencia (si aplica) agregados con éxito." : "Registro de revisión y 0 incidencias (si aplica) agregados con éxito.");
             })
             .fail(function(error) {
-                console.log("Error: " + error);
+                console.error(error);  // Console log to verify the error message
+                alert("Hubo un error en la actualización de los registros. Por favor, inténtalo de nuevo.");
             });
     });
     
+    
 });
 
-function updateReporte(revisionId) {
-    fetch(`getReporte.php?id=${revisionId}`)
-        .then(response => response.json())
-        .then(data => {
-            if (data.error) {
-                // Mostrar el error
-                console.error(data.error);
-            } else {
-                // Actualizar la interfaz de usuario con los datos de la nueva revisión
-                // ... tu código para actualizar la interfaz de usuario ...
-            }
-        });
-}
+

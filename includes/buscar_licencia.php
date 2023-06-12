@@ -70,7 +70,7 @@ function obtenerVehiculos($n_licencia)
 
                 $salida .= '<p class="card-text">Código de parte dañada: ' . $dano['codigo'] . '</p>';
             }
-            //ACTUALIZAR 
+            //ACTUALIZAR CON O SIN DAÑOS
             $salida .= '<button class="btn btn-primary update-button" data-matricula="' . $matricula . '" data-conductor="' . $vehiculo['nombre_apellidos'] . '">Actualizar</button>';
             $salida .= '<button class="btn btn-primary noupdate-button" data-matricula="' . $matricula . '" data-conductor="' . $vehiculo['nombre_apellidos'] . '">No hay cambios</button>';
             $salida .= '</div>';
