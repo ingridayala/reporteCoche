@@ -4,7 +4,8 @@ require_once '../includes/conexion.php';
 // Obtén los datos enviados con la petición POST
 $matricula = $_POST['matricula'];
 $conductor = $_POST['conductor'];
-$damage = $_POST['damage']; // Esto puede ser verdadero o falso
+//$damage = $_POST['damage']; // Esto puede ser verdadero o falso
+$damage = filter_var($_POST['damage'], FILTER_VALIDATE_BOOLEAN);
 
 // Crear una nueva instancia de conexion
 $bbdd = new conexion();
