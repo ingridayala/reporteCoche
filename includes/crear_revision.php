@@ -1,6 +1,11 @@
 <?php
 require_once '../includes/conexion.php';
 
+if (!isset($_POST['matricula']) || !isset($_POST['conductor']) || !isset($_POST['damage'])) {
+    echo json_encode(['error' => 'Faltan datos en la petición.']);
+    exit;
+}
+
 // Obtén los datos enviados con la petición POST
 $matricula = $_POST['matricula'];
 $conductor = $_POST['conductor'];

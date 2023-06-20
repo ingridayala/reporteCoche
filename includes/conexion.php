@@ -7,10 +7,10 @@ class conexion{
     private $pass;
 
     public function __construct(){
-        $this -> host = "localhost";
+        $this -> host = "localhost"; 
         $this -> bbdd = "taller";
         $this -> user = "root";
-        $this -> pass = "";
+        $this -> pass = "1234";
     }
     function connect(){
         try{
